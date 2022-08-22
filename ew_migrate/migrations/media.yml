@@ -1,0 +1,41 @@
+id: media
+label: Media items from legacy website.
+
+migration_group: content
+migration_tags:
+  - media
+
+source:
+  plugin: d7_file
+  scheme: public
+  constants:
+    source_base_path: ''
+process:
+  temp1:
+    plugin: skip_on_value
+    method: row
+    not_equals: true
+    value:
+        - image/png
+        - image/jpg
+        - image/jpeg
+    source: filemime
+
+  field_media_image/target_id:
+    plugin: migration_lookup
+    migration: files
+    source: fid
+
+  status: status
+  # Drupal 7 didn't keep track of the file's creation or update time.
+  # All it had was the vague "timestamp" column. So we'll use it
+  # for both.
+  created: timestamp
+  changed: timestamp
+
+destination:
+  plugin: 'entity:media'
+  default_bundle: image
+migration_dependencies:
+  optional:
+    - files

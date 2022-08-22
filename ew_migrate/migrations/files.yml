@@ -1,0 +1,32 @@
+id: files
+label: Files from legacy website.
+migration_group: content
+source:
+  plugin: d7_file
+  scheme: public
+  constants:
+    source_uri_prefix: 'https://dev-ew-amd-source.pantheonsite.io/'
+    dest_uri_prefix: 'public://'
+    source_base_path: ''
+
+process:
+  source_uri:
+    plugin: concat
+    source:
+      - constants/source_uri_prefix
+      - filepath
+  dest_uri:
+    plugin: concat
+    source:
+      - constants/dest_uri_prefix
+      - uri
+
+  uri:
+    plugin: file_copy
+    source:
+      - '@source_uri'
+      - '@dest_uri'
+    no_stub: true
+
+destination:
+  plugin: 'entity:file'

@@ -1,0 +1,53 @@
+id: articles
+label: Articles items from legacy website.
+
+migration_group: content
+migration_tags:
+  - articles
+
+source:
+  plugin: d7_node
+  node_type: article
+
+process:
+  title: title
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  type:
+    plugin: default_value
+    default_value: article
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  uid:
+    plugin: default_value
+    default_value: 1
+  body:
+    plugin: sub_process
+    source: body
+    process:
+      format:
+        plugin: default_value
+        default_value: full_html
+      value: value
+  field_image:
+    plugin: sub_process
+    source: field_image
+    process:
+      target_id:
+        plugin: migration_lookup
+        source: fid
+        migration: media
+
+destination:
+  plugin: 'entity:node'
+
+migration_dependencies:
+  optional:
+    - media

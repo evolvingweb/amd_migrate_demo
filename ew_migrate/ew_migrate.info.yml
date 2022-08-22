@@ -1,0 +1,9 @@
+name: EW Migrate
+type: module
+description: Provides some migration plugins to learn about migrate in Drupal.
+package: Custom
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:migrate
+  - migrate_plus:migrate_plus
+  - drupal:migrate_drupal
