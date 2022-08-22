@@ -36,6 +36,19 @@ process:
         plugin: default_value
         default_value: full_html
       value: value
+  pseudo_text_paragraph:
+    plugin: migration_lookup
+    migration: articles_intro_paragraphs
+    source: nid
+  field_components:
+    plugin: sub_process
+    source:
+      - '@pseudo_text_paragraph'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+
   field_image:
     plugin: sub_process
     source: field_image
@@ -51,3 +64,4 @@ destination:
 migration_dependencies:
   optional:
     - media
+    - articles_intro_paragraphs

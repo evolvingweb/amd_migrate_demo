@@ -1,0 +1,27 @@
+id: articles_intro_paragraphs
+label: Articles Intro Paragraphs items from legacy website.
+
+migration_group: content
+migration_tags:
+  - articles
+
+source:
+  plugin: d7_node
+  node_type: article
+
+process:
+  field_text:
+    plugin: sub_process
+    source: field_intro_text
+    process:
+      format:
+        plugin: default_value
+        default_value: full_html
+      value: value
+  uid:
+    plugin: default_value
+    default_value: 1
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: text
